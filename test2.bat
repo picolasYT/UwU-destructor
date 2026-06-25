@@ -1,49 +1,85 @@
-import webbrowser
-import threading
-import time
-import random
-from fake_useragent import UserAgent
+@echo off
+title [REBEL GENIUS] - BOT DE CAOS: 500 VENTANAS A picolas.vercel.app
+color 0C
+mode con: cols=80 lines=25
 
-# --- CONFIGURACIÓN ---
-TARGET_URL = "https://picolas.vercel.app/"
-NUM_WINDOWS = 500
-DELAY_BETWEEN_OPENS = 0.01  # 10ms entre cada ventana (¡INSTANTÁNEO!)
-UA = UserAgent()
+:: --- ENCABEZADO DE MIERDA ---
+echo  ██████╗ ██████╗ ██████╗ ███████╗███████╗██████╗ ██╗   ██╗███████╗
+echo ██╔════╝ ██╔══██╗██╔══██╗██╔════╝██╔════╝██╔══██╗██║   ██║██╔════╝
+echo ██║  ███╗██████╔╝██████╔╝█████╗  █████╗  ██████╔╝██║   ██║███████╗
+echo ██║   ██║██╔══██╗██╔══██╗██╔══╝  ██╔══╝  ██╔══██╗██║   ██║╚════██║
+echo ╚██████╔╝██║  ██║██║  ██║███████╗███████╗██║  ██║╚██████╔╝███████║
+echo  ╚═════╝ ╚═╝  ╚═╝╚═╝  ╚═╝╚══════╝╚══════╝╚═╝  ╚═╝ ╚═════╝ ╚══════╝
+echo.
+echo  ███████╗██╗   ██╗███╗   ███╗ ██████╗████████╗██╗ ██████╗ ███╗   ██╗
+echo  ██╔════╝╚██╗ ██╔╝████╗ ████║██╔════╝╚══██╔══╝██║██╔═══██╗████╗  ██║
+echo  █████╗   ╚████╔╝ ██╔████╔██║██║        ██║   ██║██║   ██║██╔██╗ ██║
+echo  ██╔══╝    ╚██╔╝  ██║╚██╔╝██║██║        ██║   ██║██║   ██║██║╚██╗██║
+echo  ███████╗   ██║   ██║ ╚═╝ ██║╚██████╗   ██║   ██║╚██████╔╝██║ ╚████║
+echo  ╚══════╝   ╚═╝   ╚═╝     ╚═╝ ╚═════╝   ╚═╝   ╚═╝ ╚═════╝ ╚═╝  ╚═══╝
+echo.
+echo  ██████╗ ███████╗████████╗███████╗██████╗ ██╗   ██╗███████╗██████╗
+echo ██╔════╝ ██╔════╝╚══██╔══╝██╔════╝██╔══██╗██║   ██║██╔════╝██╔══██╗
+echo ██║  ███╗█████╗     ██║   █████╗  ██████╔╝██║   ██║█████╗  ██████╔╝
+:: --- FIN DEL ENCABEZADO DE MIERDA ---
 
-def open_window():
-    try:
-        # Generar User-Agent aleatorio para evadir detección
-        headers = {"User-Agent": UA.random}
+:: --- MENSAJE DE ADVERTENCIA ---
+echo [⚠️] ¡ADVERTENCIA! ESTE SCRIPT ABRIRÁ 500 VENTANAS A picolas.vercel.app.
+echo [⚠️] SOLO EJECUTAR EN UN ENTORNO CONTROLADO (MÁQUINA VIRTUAL).
+echo [⚠️] NO USAR EN SISTEMAS AJENOS SIN PERMISO (ILEGAL).
+echo [⚠️] PUEDE SATURAR TU SISTEMA Y RED.
+echo.
+pause >nul
 
-        # Abrir ventana en modo incógnito (opcional)
-        chrome_path = "C:/Program Files/Google/Chrome/Application/chrome.exe %s --incognito"
-        webbrowser.get(chrome_path).open_new_tab(TARGET_URL)
+:: --- DETECCIÓN AUTOMÁTICA DEL NAVEGADOR ---
+set BROWSER=""
 
-        # Alternativa para Firefox (si Chrome no está disponible)
-        # firefox_path = "C:/Program Files/Mozilla Firefox/firefox.exe -private-window"
-        # webbrowser.get(firefox_path).open_new_tab(TARGET_URL)
+:: Verificar Chrome
+if exist "C:\Program Files\Google\Chrome\Application\chrome.exe" (
+    set BROWSER="C:\Program Files\Google\Chrome\Application\chrome.exe" --new-window
+) else if exist "C:\Program Files (x86)\Google\Chrome\Application\chrome.exe" (
+    set BROWSER="C:\Program Files (x86)\Google\Chrome\Application\chrome.exe" --new-window
+) else if exist "%LOCALAPPDATA%\Google\Chrome\Application\chrome.exe" (
+    set BROWSER="%LOCALAPPDATA%\Google\Chrome\Application\chrome.exe" --new-window
+)
 
-    except Exception as e:
-        print(f"[!] Error al abrir ventana: {e}")
+:: Si no se encuentra Chrome, verificar Edge
+if "%BROWSER%"=="" (
+    if exist "C:\Program Files (x86)\Microsoft\Edge\Application\msedge.exe" (
+        set BROWSER="C:\Program Files (x86)\Microsoft\Edge\Application\msedge.exe" --new-window
+    ) else if exist "%LOCALAPPDATA%\Microsoft\Edge\Application\msedge.exe" (
+        set BROWSER="%LOCALAPPDATA%\Microsoft\Edge\Application\msedge.exe" --new-window
+    )
+)
 
-def main():
-    print("[+] 🔥 INICIANDO BOT DE CAOS... 🔥")
-    print(f"[+] Abriendo {NUM_WINDOWS} ventanas a {TARGET_URL}")
-    print("[!] ¡ADVERTENCIA! Esto puede saturar tu sistema y red.")
-    print("[!] Presiona Ctrl+C para detener el ataque.")
+:: Si no se encuentra Edge, verificar Firefox
+if "%BROWSER%"=="" (
+    if exist "C:\Program Files\Mozilla Firefox\firefox.exe" (
+        set BROWSER="C:\Program Files\Mozilla Firefox\firefox.exe" -new-window
+    ) else if exist "%LOCALAPPDATA%\Programs\Mozilla Firefox\firefox.exe" (
+        set BROWSER="%LOCALAPPDATA%\Programs\Mozilla Firefox\firefox.exe" -new-window
+    )
+)
 
-    threads = []
-    for i in range(NUM_WINDOWS):
-        thread = threading.Thread(target=open_window)
-        threads.append(thread)
-        thread.start()
-        time.sleep(DELAY_BETWEEN_OPENS)  # Controla la velocidad
+:: Si no se encuentra ningún navegador, usar el predeterminado del sistema
+if "%BROWSER%"=="" (
+    echo [+] No se detectó Chrome, Edge ni Firefox. Usando navegador predeterminado...
+    set BROWSER=""
+)
 
-    # Esperar a que todos los hilos terminen
-    for thread in threads:
-        thread.join()
+:: --- ABRIR 500 VENTANAS INSTANTÁNEAMENTE ---
+echo [+] Abriendo 500 ventanas a picolas.vercel.app...
+echo [+] Usando navegador: %BROWSER%
 
-    print("[+] 🎉 ¡500 ventanas abiertas! (Si no se colgó tu PC)")
+set COUNT=0
+:loop
+if %COUNT% lss 500 (
+    start "" %BROWSER% "https://picolas.vercel.app/"
+    set /a COUNT+=1
+    timeout /t 0 >nul 2>&1
+    goto loop
+)
 
-if __name__ == "__main__":
-    main()
+echo [+] 🎉 ¡500 ventanas abiertas! (Si no se colgó tu PC)
+echo [+] Presiona cualquier tecla para cerrar...
+pause >nul

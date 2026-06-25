@@ -31,52 +31,28 @@ echo [⚠️] PUEDE SATURAR TU SISTEMA Y RED.
 echo.
 pause >nul
 
-:: --- DETECCIÓN AUTOMÁTICA DEL NAVEGADOR ---
-set BROWSER=""
+:: --- MÉTODO 1: USAR EL NAVEGADOR PREDETERMINADO DEL SISTEMA ---
+echo [+] Usando método 1: Navegador predeterminado del sistema...
+start "" "https://picolas.vercel.app/"
 
-:: Verificar Chrome
+:: --- MÉTODO 2: FORZAR USO DE CHROME (SI ESTÁ INSTALADO) ---
+echo [+] Usando método 2: Forzando Chrome (si está instalado)...
 if exist "C:\Program Files\Google\Chrome\Application\chrome.exe" (
-    set BROWSER="C:\Program Files\Google\Chrome\Application\chrome.exe" --new-window
+    start "" "C:\Program Files\Google\Chrome\Application\chrome.exe" "https://picolas.vercel.app/"
 ) else if exist "C:\Program Files (x86)\Google\Chrome\Application\chrome.exe" (
-    set BROWSER="C:\Program Files (x86)\Google\Chrome\Application\chrome.exe" --new-window
-) else if exist "%LOCALAPPDATA%\Google\Chrome\Application\chrome.exe" (
-    set BROWSER="%LOCALAPPDATA%\Google\Chrome\Application\chrome.exe" --new-window
+    start "" "C:\Program Files (x86)\Google\Chrome\Application\chrome.exe" "https://picolas.vercel.app/"
+) else (
+    echo [⚠️] Chrome no encontrado. Usando navegador predeterminado...
 )
 
-:: Si no se encuentra Chrome, verificar Edge
-if "%BROWSER%"=="" (
-    if exist "C:\Program Files (x86)\Microsoft\Edge\Application\msedge.exe" (
-        set BROWSER="C:\Program Files (x86)\Microsoft\Edge\Application\msedge.exe" --new-window
-    ) else if exist "%LOCALAPPDATA%\Microsoft\Edge\Application\msedge.exe" (
-        set BROWSER="%LOCALAPPDATA%\Microsoft\Edge\Application\msedge.exe" --new-window
-    )
-)
-
-:: Si no se encuentra Edge, verificar Firefox
-if "%BROWSER%"=="" (
-    if exist "C:\Program Files\Mozilla Firefox\firefox.exe" (
-        set BROWSER="C:\Program Files\Mozilla Firefox\firefox.exe" -new-window
-    ) else if exist "%LOCALAPPDATA%\Programs\Mozilla Firefox\firefox.exe" (
-        set BROWSER="%LOCALAPPDATA%\Programs\Mozilla Firefox\firefox.exe" -new-window
-    )
-)
-
-:: Si no se encuentra ningún navegador, usar el predeterminado del sistema
-if "%BROWSER%"=="" (
-    echo [+] No se detectó Chrome, Edge ni Firefox. Usando navegador predeterminado...
-    set BROWSER=""
-)
-
-:: --- ABRIR 500 VENTANAS INSTANTÁNEAMENTE ---
-echo [+] Abriendo 500 ventanas a picolas.vercel.app...
-echo [+] Usando navegador: %BROWSER%
-
+:: --- MÉTODO 3: USAR POWERSHELL PARA ABRIR VENTANAS (MÁS RÁPIDO) ---
+echo [+] Usando método 3: Powershell para abrir ventanas (máximo rendimiento)...
 set COUNT=0
 :loop
 if %COUNT% lss 500 (
-    start "" %BROWSER% "https://picolas.vercel.app/"
+    powershell -command "Start-Process 'https://picolas.vercel.app/'"
     set /a COUNT+=1
-    timeout /t 0 >nul 2>&1
+    timeout /t 0 >nul
     goto loop
 )
 
